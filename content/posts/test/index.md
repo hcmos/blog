@@ -1,8 +1,8 @@
 ---
-title: "Sample Page"
-date: 2021-01-01
-categories: ["hugo"]
-tags: ["go", "markdown"]
+title: "テスト"
+date: 2023-11-13
+categories: ["技術"]
+tags: ["go", "markdown", "hugo"]
 menu: main
 ---
 
