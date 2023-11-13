@@ -1,5 +1,6 @@
 # 公開するページのURL
 baseURL = "https://hmos.github.io/blog"
+publishDir = "docs"
 
 languageCode = "ja"
 DefaultContentLanguage = "ja"
