@@ -2,31 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://hmos.github.io/blog/categories/</loc>
+    <loc>https://blog.hcmos.jp/categories/</loc>
     <lastmod>2023-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hmos.github.io/blog/tags/go/</loc>
+    <loc>https://blog.hcmos.jp/tags/go/</loc>
     <lastmod>2023-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hmos.github.io/blog/tags/hugo/</loc>
+    <loc>https://blog.hcmos.jp/tags/hugo/</loc>
     <lastmod>2023-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hmos.github.io/blog/tags/markdown/</loc>
+    <loc>https://blog.hcmos.jp/tags/markdown/</loc>
     <lastmod>2023-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hmos.github.io/blog/posts/</loc>
+    <loc>https://blog.hcmos.jp/posts/</loc>
     <lastmod>2023-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hmos.github.io/blog/tags/</loc>
+    <loc>https://blog.hcmos.jp/tags/</loc>
     <lastmod>2023-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hmos.github.io/blog/posts/test/</loc>
+    <loc>https://blog.hcmos.jp/posts/test/</loc>
     <lastmod>2023-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hmos.github.io/blog/</loc>
+    <loc>https://blog.hcmos.jp/</loc>
     <lastmod>2023-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hmos.github.io/blog/categories/%E6%8A%80%E8%A1%93/</loc>
+    <loc>https://blog.hcmos.jp/categories/%E6%8A%80%E8%A1%93/</loc>
     <lastmod>2023-11-13T00:00:00+00:00</lastmod>
   </url>
 </urlset>

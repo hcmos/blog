@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://hmos.github.io/blogsitemap.xml
+Sitemap: https://blog.hcmos.jpsitemap.xml

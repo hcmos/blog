@@ -1,5 +1,5 @@
 # 公開するページのURL
-baseURL = "https://hmos.github.io/blog"
+baseURL = "https://blog.hcmos.jp"
 publishDir = "docs"
 
 languageCode = "ja"
