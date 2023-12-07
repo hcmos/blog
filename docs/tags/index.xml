@@ -6,7 +6,25 @@
     <description>Recent content in Tags on ブログ ささやかに</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Mon, 13 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hcmos.jp/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 05 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hcmos.jp/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ロボット</title>
+      <link>https://blog.hcmos.jp/tags/%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/</link>
+      <pubDate>Tue, 05 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.hcmos.jp/tags/%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>研究</title>
+      <link>https://blog.hcmos.jp/tags/%E7%A0%94%E7%A9%B6/</link>
+      <pubDate>Tue, 05 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.hcmos.jp/tags/%E7%A0%94%E7%A9%B6/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>go</title>
       <link>https://blog.hcmos.jp/tags/go/</link>
