@@ -6,24 +6,21 @@
     <description>Recent content in Posts on ブログ ささやかに</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Thu, 07 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hcmos.jp/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 07 Dec 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.hcmos.jp/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>国際ロボット展2023に出展した感想</title>
       <link>https://blog.hcmos.jp/posts/202312052127/</link>
       <pubDate>Thu, 07 Dec 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.hcmos.jp/posts/202312052127/</guid>
       <description>ブログも開設してロボット展も終わり，色々とすっきりしたので思ったことでも書こうと思います． これまで 私が初めて参加したのは2019，高校三年生</description>
     </item>
-    
     <item>
       <title>テスト</title>
       <link>https://blog.hcmos.jp/posts/test/</link>
       <pubDate>Mon, 13 Nov 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.hcmos.jp/posts/test/</guid>
       <description>HUGOのサンプル h1 h2 h3 h4 h5 h6 a b c d e f $ bash BOLD italic 44GG44KT44GT #include &amp;lt;stdio.h&amp;gt; int main() { printf(&amp;#34;Hello, World!\n&amp;#34;); return 0; }</description>
     </item>
-    
   </channel>
 </rss>
