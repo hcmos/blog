@@ -51,7 +51,7 @@ CANが使いたいので，こんな感じの[ハット基板](https://github.co
 
 ### 動作
 https://youtube.com/shorts/hrbsJN5baHw?feature=share  
-最初の動作としては上出来でしょう．(軸間距離長すぎだろ...)  
+最初の動作としては上出来でしょう．(トレッド長すぎだろ...)  
 ジョイコンで操作しています．
 
 #### IMU
