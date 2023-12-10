@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="no-js" lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ラズパイでロボット制御! - ブログ ささやかに</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ラズパイでロボット制御!"/>
+<meta name="twitter:description" content="この記事は 学ロボ Advent Calendar 2023 の10日目 金沢工業大学 Advent Calendar 2023 の10日目 です．また，今日は私の誕生日です．(わーい) 双方，参考になる記事ばかりで， 金沢工"/>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="ブログ ささやかに" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">ブログ ささやかに</div>
+					
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">メニュー</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/posts/test/">
+				
+				<span class="menu__text">テスト</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/posts/202312091743/">
+				
+				<span class="menu__text">ラズパイでロボット制御!</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/posts/202312052127/">
+				
+				<span class="menu__text">国際ロボット展2023に出展した感想</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">ラズパイでロボット制御!</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2023-12-10T00:00:00Z">December 10, 2023</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%8A%80%E8%A1%93/" rel="category">技術</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<h2 id="この記事は">この記事は</h2>
+<p><a href="https://adventar.org/calendars/8926">学ロボ Advent Calendar 2023</a> の10日目<br>
+<a href="https://qiita.com/advent-calendar/2023/kit-calendar">金沢工業大学 Advent Calendar 2023</a> の10日目<br>
+です．また，今日は私の誕生日です．(わーい)</p>
+<p>双方，参考になる記事ばかりで，<br>
+金沢工業大学の方では昨日，国際ロボット展に一緒に行った同期の<a href="https://qiita.com/naoyuki0920/items/c659ab92899c928f43f6">記事</a>が上がっていました．</p>
+<p>上記とは見劣りすると思いますが，少しですので読んでいただければ幸いです．</p>
+<h3 id="環境">環境</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ラズパイ</td>
+<td>4B 4GB</td>
+</tr>
+<tr>
+<td>ROS</td>
+<td>ROS 2 humble</td>
+</tr>
+<tr>
+<td>開発環境</td>
+<td>Ubuntu22</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ros">ROS</h3>
+<p>とかのパソコン環境を使いたいけど，GPIOも使いたいってことが普通にあると思います．ロボコンではマイコンで読んだ値をパソコンに送ったりして使うのですが，小規模なものでは面倒です．mROSやjetsonを使えばよいのかもしれませんが，簡単にグラフィカルな環境を安価に手に入れるためにラズパイは最適です．起動メディアを持ち歩けば，ハードウェアを変えずに自前の環境で開発できます．</p>
+<h3 id="usbブート">USBブート</h3>
+<p>2020年12月以降のブートローダが入っているラズパイは最初からUSBブートが出来るらしいですが，私のはそうでなかったので，<br>
+TFカードにRaspberryPi OSを入れて<code>raspi-config</code>からUSBブートを真にしときました．一応ブートローダも更新しときました．<br>
+起動後は諸所のセットアップ．詳しくは<a href="https://qiita.com/HirohitoHigashi/items/7b57781a8a4874012d3d">こちら</a>に書かれてます．</p>
+<h3 id="モータを回す準備">モータを回す準備</h3>
+<p>差動二輪のロボットを研究用に作りたかったので，少なくとも二つのモータを回す必要があります．<br>
+といってもMDを一から作るなどの技量はないし，しっかりとした既製品を買うお金もないので，<a href="https://store.dji.com/jp/product/rm-m3508-p19-brushless-dc-gear-motor?vid=32501">M3508</a>と<a href="https://store.dji.com/jp/product/rm-c620-brushless-dc-motor-speed-controller?vid=32491">C620</a>を使いました．
+CANが使いたいので，こんな感じの<a href="https://github.com/hcmos/kicad-2023/tree/main/raspberrypi_hat">ハット基板</a>を作りました．
+<figure><img src="./IMG_4998.JPG"
+         alt="ハット基板" width="50%"/>
+</figure>
+</p>
+<p>コントローラはmcp2515で，spiから変換しています．ドライバはlinuxに書かれています．<a href="https://github.com/torvalds/linux/blob/master/drivers/net/can/spi/mcp251x.c">mcp251x.c</a></p>
+<h3 id="ロボットに組み込む">ロボットに組み込む</h3>
+<p>ロボットはこんな感じのものを作りました．ラズパイの右に載ってるのは電源基板です．
+<figure><img src="./IMG_5075.JPG"
+         alt="ロボット" width="50%"/>
+</figure>
+</p>
+<p>モータの目標値を計画する必要があります．差動二輪の並進・角速度は以下の方程式で計算できるので，
+<figure><img src="./20190630203403.png"
+         alt="運動学モデル" width="50%"/>
+</figure>
+
+駆動輪の角速度に解いてやればよいです．
+<figure><img src="./IMG_E5272.JPG"
+         alt="逆運動学モデル" width="30%"/>
+</figure>
+
+こいつを位置のPIコントローラで追従させます．</p>
+<h3 id="動作">動作</h3>
+<p><a href="https://youtube.com/shorts/hrbsJN5baHw?feature=share">https://youtube.com/shorts/hrbsJN5baHw?feature=share</a><br>
+最初の動作としては上出来でしょう．(軸間距離長すぎだろ&hellip;)<br>
+ジョイコンで操作しています．</p>
+<h4 id="imu">IMU</h4>
+<p>をi2cから読んでみました．値がたまに飛んでますが，プルアップ抵抗の値変更とシールドケーブルにしたら直りました．<br>
+<a href="https://youtube.com/shorts/g2Cg93idGa0?feature=share">https://youtube.com/shorts/g2Cg93idGa0?feature=share</a></p>
+<h4 id="そこから">そこから</h4>
+<p>ハード・ソフト共にブラッシュアップし，このようになりました．(手動操縦ではありませんが)<br>
+<a href="https://youtube.com/shorts/xhwst5pH3FI?feature=share">https://youtube.com/shorts/xhwst5pH3FI?feature=share</a></p>
+<h3 id="まとめ">まとめ</h3>
+<p>以上のように簡単なロボット制御ならラズパイだけで出来ます．<br>
+このハット基板以上にもPWM(4チャンネルくらい)使えたりします．
+また，EthernetコントローラがあるのでEtherCATスレーブと通信したり，USBで外付けROMを繋げたりも勿論できるので，結構，有用性は高いと思います．
+stm32とかでメイン基板を作っても値が張る場合が多いので経済的にも良さそうです．<br>
+デプロイ環境はubuntuでは重いので，RaspberryPi OS+ROSが良いと思います．<br>
+ロボット制御したいけどハードウェア頑張りたくないって人は良いかもしれません．</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/" rel="tag">ロボット</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E3%83%A9%E3%82%BA%E3%83%91%E3%82%A4/" rel="tag">ラズパイ</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="cmos avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">cmosについて</span>
+	</div>
+	<div class="authorbox__description">
+		大学生
+	</div>
+</div>
+
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">最近の投稿</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/202312091743/">ラズパイでロボット制御!</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/202312052127/">国際ロボット展2023に出展した感想</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/test/">テスト</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">カテゴリー</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%89%80%E6%84%9F/">所感</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%8A%80%E8%A1%93/">技術</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">タグ</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/markdown/" title="markdown">markdown</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E3%83%A9%E3%82%BA%E3%83%91%E3%82%A4/" title="ラズパイ">ラズパイ</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/" title="ロボット">ロボット</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%A0%94%E7%A9%B6/" title="研究">研究</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2023 Author.
+			<span class="footer__copyright-credits">このサイトは <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> と <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> テーマで生成されています。</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
