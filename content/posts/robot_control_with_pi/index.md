@@ -2,7 +2,7 @@
 title: "ラズパイでロボット制御!"
 date: 2023-12-10
 categories: ["技術"]
-tags: ["ロボット", "ラズパイ"]
+tags: ["ロボット", "ラズパイ", "ROS"]
 menu: main
 ---
 
