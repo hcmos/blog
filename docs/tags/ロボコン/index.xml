@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ロボコン on ブログ ささやかに</title>
+    <link>https://blog.hcmos.jp/tags/%E3%83%AD%E3%83%9C%E3%82%B3%E3%83%B3/</link>
+    <description>Recent content in ロボコン on ブログ ささやかに</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Fri, 22 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hcmos.jp/tags/%E3%83%AD%E3%83%9C%E3%82%B3%E3%83%B3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ROSトピックロガーを設置する</title>
+      <link>https://blog.hcmos.jp/posts/ros2_topic_logger/</link>
+      <pubDate>Fri, 22 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.hcmos.jp/posts/ros2_topic_logger/</guid>
+      <description>この記事は 学ロボ Advent Calendar 2023 の22日目 金沢工業大学 Advent Calendar 2023 の22日目 です． 学ロボのアドカレで，MD製作欲が大きくなってます(なお当人は無知)．電子工</description>
+    </item>
+    
+  </channel>
+</rss>

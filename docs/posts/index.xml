@@ -6,22 +6,31 @@
     <description>Recent content in Posts on ブログ ささやかに</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 10 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hcmos.jp/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 22 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hcmos.jp/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ROSトピックロガーを設置する</title>
+      <link>https://blog.hcmos.jp/posts/ros2_topic_logger/</link>
+      <pubDate>Fri, 22 Dec 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.hcmos.jp/posts/ros2_topic_logger/</guid>
+      <description>この記事は 学ロボ Advent Calendar 2023 の22日目 金沢工業大学 Advent Calendar 2023 の22日目 です． 学ロボのアドカレで，MD製作欲が大きくなってます(なお当人は無知)．電子工</description>
+    </item>
+    
     <item>
       <title>ラズパイでロボット制御!</title>
-      <link>https://blog.hcmos.jp/posts/202312091743/</link>
+      <link>https://blog.hcmos.jp/posts/robot_control_with_pi/</link>
       <pubDate>Sun, 10 Dec 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.hcmos.jp/posts/202312091743/</guid>
+      <guid>https://blog.hcmos.jp/posts/robot_control_with_pi/</guid>
       <description>この記事は 学ロボ Advent Calendar 2023 の10日目 金沢工業大学 Advent Calendar 2023 の10日目 です．また，今日は私の誕生日です．(わーい) 双方，参考になる記事ばかりで， 金沢工</description>
     </item>
     
     <item>
       <title>国際ロボット展2023に出展した感想</title>
-      <link>https://blog.hcmos.jp/posts/202312052127/</link>
+      <link>https://blog.hcmos.jp/posts/impressions_of_irex/</link>
       <pubDate>Thu, 07 Dec 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://blog.hcmos.jp/posts/202312052127/</guid>
+      <guid>https://blog.hcmos.jp/posts/impressions_of_irex/</guid>
       <description>ブログも開設してロボット展も終わり，色々とすっきりしたので思ったことでも書こうと思います． これまで 私が初めて参加したのは2019，高校三年生</description>
     </item>
     
