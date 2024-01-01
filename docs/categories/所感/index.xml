@@ -6,15 +6,21 @@
     <description>Recent content in 所感 on ブログ ささやかに</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Thu, 07 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.hcmos.jp/categories/%E6%89%80%E6%84%9F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://blog.hcmos.jp/categories/%E6%89%80%E6%84%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>令和6年の抱負</title>
+      <link>https://blog.hcmos.jp/posts/2024s_resolutions/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.hcmos.jp/posts/2024s_resolutions/</guid>
+      <description>今年に限ったこと ではないですが&amp;hellip; 自分のために使う時間を優先 ときや立場によって変わる他人の意見に翻弄されない やりたいこと優先 未熟</description>
+    </item>
     <item>
       <title>国際ロボット展2023に出展した感想</title>
       <link>https://blog.hcmos.jp/posts/impressions_of_irex/</link>
       <pubDate>Thu, 07 Dec 2023 00:00:00 +0000</pubDate>
-      
       <guid>https://blog.hcmos.jp/posts/impressions_of_irex/</guid>
       <description>ブログも開設してロボット展も終わり，色々とすっきりしたので思ったことでも書こうと思います． これまで 私が初めて参加したのは2019，高校三年生</description>
     </item>
-    
   </channel>
 </rss>

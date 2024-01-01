@@ -3,7 +3,7 @@ title: "テスト"
 date: 2023-11-13
 categories: ["技術"]
 tags: ["go", "markdown", "hugo"]
-menu: main
+# menu: main
 ---
 
 # HUGOのサンプル

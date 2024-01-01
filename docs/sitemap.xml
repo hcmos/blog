@@ -3,12 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blog.hcmos.jp/categories/</loc>
-    <lastmod>2023-12-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://blog.hcmos.jp/tags/linux/</loc>
-    <lastmod>2023-12-22T00:00:00+00:00</lastmod>
+    <lastmod>2024-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.hcmos.jp/posts/</loc>
+    <lastmod>2024-01-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.hcmos.jp/</loc>
+    <lastmod>2024-01-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.hcmos.jp/categories/%E6%89%80%E6%84%9F/</loc>
+    <lastmod>2024-01-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.hcmos.jp/posts/2024s_resolutions/</loc>
+    <lastmod>2024-01-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.hcmos.jp/tags/linux/</loc>
     <lastmod>2023-12-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.hcmos.jp/tags/ros/</loc>
@@ -18,9 +27,6 @@
     <lastmod>2023-12-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.hcmos.jp/tags/</loc>
-    <lastmod>2023-12-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://blog.hcmos.jp/</loc>
     <lastmod>2023-12-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.hcmos.jp/tags/%E3%83%AD%E3%83%9C%E3%82%B3%E3%83%B3/</loc>
@@ -42,9 +48,6 @@
     <lastmod>2023-12-07T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.hcmos.jp/posts/impressions_of_irex/</loc>
-    <lastmod>2023-12-07T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://blog.hcmos.jp/categories/%E6%89%80%E6%84%9F/</loc>
     <lastmod>2023-12-07T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://blog.hcmos.jp/tags/go/</loc>
