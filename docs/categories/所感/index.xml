@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>所感 on ブログ ささやかに</title>
+    <title>所感 on cmosのブログ</title>
     <link>https://blog.hcmos.jp/categories/%E6%89%80%E6%84%9F/</link>
-    <description>Recent content in 所感 on ブログ ささやかに</description>
+    <description>Recent content in 所感 on cmosのブログ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Mon, 01 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 Dec 2023 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://blog.hcmos.jp/categories/%E6%89%80%E6%84%9F/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>令和6年の抱負</title>
-      <link>https://blog.hcmos.jp/posts/2024s_resolutions/</link>
-      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
-      <guid>https://blog.hcmos.jp/posts/2024s_resolutions/</guid>
-      <description>今年に限ったこと ではないですが&amp;hellip; 自分のために使う時間を優先 ときや立場によって変わる他人の意見に翻弄されない やりたいこと優先 未熟</description>
-    </item>
     <item>
       <title>国際ロボット展2023に出展した感想</title>
       <link>https://blog.hcmos.jp/posts/impressions_of_irex/</link>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html class="no-js" lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>WSLでCAN-USBを使う - cmosのブログ</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="WSLでCAN-USBを使う"/>
+<meta name="twitter:description" content="環境 項目 値 WSL バージョン2 コンテナ Ubuntu-22.04 docker docker for windows(Hyper-V) &gt; wsl -v WSL バージョン: 2.2.4.0 カーネル バージョン: 5.15.153.1-2 WSLg バージョン: 1.0.61 MSRDC バージョン: 1.2.5326 Direct3D バージョン: 1.611.1-81528511 DXCore バー"/>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo">
+		<a class="logo__link" href="/" title="cmosのブログ" rel="home">
+			<div class="logo__item logo__text">
+					<div class="logo__title">cmosのブログ</div>
+					
+				</div>
+		</a>
+	</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">メニュー</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/posts/ros2_topic_logger/">
+				
+				<span class="menu__text">ROSトピックロガーを設置する</span>
+				
+			</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/posts/can_with_wsl/">
+				
+				<span class="menu__text">WSLでCAN-USBを使う</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/posts/robot_control_with_pi/">
+				
+				<span class="menu__text">ラズパイでロボット制御!</span>
+				
+			</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/posts/impressions_of_irex/">
+				
+				<span class="menu__text">国際ロボット展2023に出展した感想</span>
+				
+			</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">WSLでCAN-USBを使う</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2024-06-23T00:00:00Z">June 23, 2024</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg><span class="meta__text"><a class="meta__link" href="/categories/%E6%8A%80%E8%A1%93/" rel="category">技術</a>
+	</span>
+</div></div>
+		</header><div class="content post__content clearfix">
+			<h3 id="環境">環境</h3>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>値</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WSL</td>
+<td>バージョン2</td>
+</tr>
+<tr>
+<td>コンテナ</td>
+<td>Ubuntu-22.04</td>
+</tr>
+<tr>
+<td>docker</td>
+<td>docker for windows(Hyper-V)</td>
+</tr>
+</tbody>
+</table>
+<pre tabindex="0"><code>&gt; wsl -v
+WSL バージョン: 2.2.4.0
+カーネル バージョン: 5.15.153.1-2
+WSLg バージョン: 1.0.61
+MSRDC バージョン: 1.2.5326
+Direct3D バージョン: 1.611.1-81528511
+DXCore バージョン: 10.0.26091.1-240325-1447.ge-release
+Windows バージョン: 10.0.19045.4529
+</code></pre><h3 id="はじめに">はじめに</h3>
+<p>仮想マシンは便利ですが，外部機器との接続やネットワークの設定が面倒だということで疎遠になっている人が多いと思います．
+この記事では，CAN-USB変換機をwsl2で使えるようにしたので共有します．<br>
+結構簡単なことなのですが，意外と他言語含めて情報が無いんですよね．ということで書きました．</p>
+<h3 id="使用機器">使用機器</h3>
+<p><a href="https://www.deshide.com/product-details.html?pid=384242&amp;_t=1671089557">SH-C30A</a>
+というものを買いました．<br>
+Amazonで三千円くらいと電子工作している人からするとぼったくり価格なのですが，stm32で簡単にDFUモードで立ち上げられたりとか，終端抵抗のスイッチがあったりと
+便利そうなのでこれにしました．</p>
+<p>ドキュメントには「linuxではドライバは要らないよ」と書いてあったのですが，それは一般的なlinuxカーネルを使用している場合です．<br>
+確認のため，ネイティブインストールされたlinuxで接続したら，<a href="https://github.com/torvalds/linux/blob/master/drivers/net/can/usb/gs_usb.c">gs_usb</a>
+というものを使用していることが分かりました．</p>
+<h3 id="usb機器のバインド">USB機器のバインド</h3>
+<p>windowsのデバイスマネージャーで認識していることを確認します．
+<figure><img src="./devicemanager.png"
+         alt="デバイスマネージャー" width="50%"/>
+</figure>
+</p>
+<h4 id="usbipd">usbipd</h4>
+<p><a href="https://learn.microsoft.com/ja-jp/windows/wsl/connect-usb">microsoftのページ</a>
+に詳しく書かれています．</p>
+<p>接続されているデバイスのバスIDを調べます．<br>
+| ステータスが<code>Shared</code>になっているのは気にしないでください．一度，attachしたら戻らなくなりました，実際には共有されていません．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>&gt; usbipd list
+</span></span><span style="display:flex;"><span>BUSID  VID<span style="color:#960050;background-color:#1e0010">:</span>PID    DEVICE                                                        STATE
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">9</span>-<span style="color:#ae81ff">4</span>    1d50<span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">606f</span>  candleLight USB to CAN adapter, candleLight firmware upgr...  Shared
+</span></span></code></pre></div><p>attachします．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span>&gt; usbipd attach --wsl --busid &lt;busid&gt;
+</span></span></code></pre></div><p>使い終わったらdetachしてホストに返してあげましょう． <code>usbipd detach --busid &lt;busid&gt;</code></p>
+<h4 id="コンテナ側">コンテナ側</h4>
+<p>USBデバイスの一覧にあることを確認します．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ lsusb
+</span></span><span style="display:flex;"><span>Bus <span style="color:#ae81ff">001</span> Device 002: ID 1d50:606f OpenMoko, Inc. Geschwister Schneider CAN adapter
+</span></span></code></pre></div><h3 id="カーネルのビルド">カーネルのビルド</h3>
+<ul>
+<li><a href="https://github.com/microsoft/WSL/issues/5533">このgithubイシュー</a>が参考になりました．</li>
+</ul>
+<p>このままではsocketCANとして扱えないので，ドライバを有効化します．<br>
+そのまえに一応wslのバックアップをしておきましょう．<br>
+| 結構ファイルサイズが大きくなります，私のは20GBくらいになりました．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span><span style="color:#75715e"># windows側</span>
+</span></span><span style="display:flex;"><span>&gt; wsl --export &lt;コンテナのディストリビューション名&gt; hoge-path/hoge.tar
+</span></span></code></pre></div><p>では始めましょう．コンテナ上で行ってください．<br>
+wslのカーネルソースをcloneして使用するカーネルのバージョンにブランチを切ります．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git clone https://github.com/microsoft/WSL2-Linux-Kernel
+</span></span><span style="display:flex;"><span>$ cd WSL2-Linux-Kernel
+</span></span><span style="display:flex;"><span>$ git checkout <span style="color:#e6db74">`</span>uname -r<span style="color:#e6db74">`</span>
+</span></span></code></pre></div><p>現在使用しているconfigファイルを持ってきます．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat /proc/config.gz | gunzip &gt; .config
+</span></span></code></pre></div><h4 id="コンフィグの設定">コンフィグの設定</h4>
+<p>GUIからコンフィグを設定します．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ make prepare modules_prepare
+</span></span><span style="display:flex;"><span>$ make menuconfig
+</span></span></code></pre></div><p>こんな感じの画面が出てきたら，<br>
+Networking suppport &mdash;&gt; CAN bus subsystem support をMにします．<br>
+| ちなみに，カーネル内に直接ビルドするのが(Y)でモジュールとしてビルドするのが(M)になります．<br>
+<figure><img src="./guiconfig.png"
+         alt="デバイスマネージャー" width="50%"/>
+</figure>
+</p>
+<p>CAN Device Drivers &mdash;&gt;<br>
+からvcanとslcanはMにしておきます．<br>
+CAN USB interfaces &mdash;&gt;<br>
+から使用するドライバをMにしておきます．</p>
+<p><code>.config</code>というデフォルトの名前で保存しておきます．</p>
+<hr>
+<p>これでも良いんですが，直接<code>.config</code>を開いても良いです．というか，そっちの方が楽です．<br>
+canの設定があるところを見つけて編集します．こちらはインタフェースの設定が略称で書いてあるので分かりやすいです．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vim" data-lang="vim"><span style="display:flex;"><span><span style="color:#a6e22e">CONFIG_CAN</span>=<span style="color:#a6e22e">m</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CONFIG_CAN_RAW</span>=<span style="color:#a6e22e">m</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CONFIG_CAN_BCM</span>=<span style="color:#a6e22e">m</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CONFIG_CAN_GW</span>=<span style="color:#a6e22e">m</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_J1939</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_ISOTP</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CAN</span> <span style="color:#a6e22e">Device</span> <span style="color:#a6e22e">Drivers</span>
+</span></span><span style="display:flex;"><span>#
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CONFIG_CAN_VCAN</span>=<span style="color:#a6e22e">m</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_VXCAN</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CONFIG_CAN_SLCAN</span>=<span style="color:#a6e22e">m</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CONFIG_CAN_DEV</span>=<span style="color:#a6e22e">m</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CONFIG_CAN_CALC_BITTIMING</span>=<span style="color:#a6e22e">y</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_KVASER_PCIEFD</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_C_CAN</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_CC770</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_IFI_CANFD</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_M_CAN</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_PEAK_PCIEFD</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_SJA1000</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_SOFTING</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>#
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CAN</span> <span style="color:#a6e22e">USB</span> <span style="color:#a6e22e">interfaces</span>
+</span></span><span style="display:flex;"><span>#
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_8DEV_USB</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_EMS_USB</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_ESD_USB2</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_ETAS_ES58X</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">CONFIG_CAN_GS_USB</span>=<span style="color:#a6e22e">m</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_KVASER_USB</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_MCBA_USB</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_PEAK_USB</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_UCAN</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">end</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">CAN</span> <span style="color:#a6e22e">USB</span> <span style="color:#a6e22e">interfaces</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">CONFIG_CAN_DEBUG_DEVICES</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">not</span> <span style="color:#66d9ef">set</span>
+</span></span><span style="display:flex;"><span># <span style="color:#a6e22e">end</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">CAN</span> <span style="color:#a6e22e">Device</span> <span style="color:#a6e22e">Drivers</span>
+</span></span></code></pre></div><p><code>CONFIG_LOCALVERSION=&quot;-microsoft-standard-WSL2&quot;</code>を変えれば<code>uname -r</code>したときのカーネル名が変えられます．
+素晴らしい名前を付けてあげましょう．</p>
+<hr>
+<p>必要なものをインストールしてコンパイルします．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo apt update
+</span></span><span style="display:flex;"><span>$ sudo apt install -y build-essential flex bison libssl-dev libelf-dev dwarves libncurses-dev
+</span></span><span style="display:flex;"><span>$ make -j <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>$ make modules_install
+</span></span><span style="display:flex;"><span>$ make install
+</span></span></code></pre></div><p>正常終了したら生成されたカーネルをwindowsの方にもっていきます．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cp arch/x86/boot/bzImage /mnt/c/Users/&lt;ユーザー名&gt;/wsl_kernel
+</span></span></code></pre></div><p>windows側で<code>.wslconfig</code>を以下のように編集します．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span><span style="color:#75715e"># windows側</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#66d9ef">wsl2</span>]
+</span></span><span style="display:flex;"><span>kernel = C:\\Users\\&lt;ユーザー名&gt;\\wsl_kernel
+</span></span></code></pre></div><p>wslを再起動します．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-PowerShell" data-lang="PowerShell"><span style="display:flex;"><span><span style="color:#75715e"># windows側</span>
+</span></span><span style="display:flex;"><span>&gt; wsl --shutdown
+</span></span><span style="display:flex;"><span>&gt; wsl
+</span></span></code></pre></div><h3 id="通信する">通信する</h3>
+<p>再起動しましたので，usbipdでattachしなおします．</p>
+<p>そして，ドライバが認識していることを確認します．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ dmesg
+</span></span><span style="display:flex;"><span>・
+</span></span><span style="display:flex;"><span>・
+</span></span><span style="display:flex;"><span>・
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 1108.916314<span style="color:#f92672">]</span> usb 1-1: New USB device found, idVendor<span style="color:#f92672">=</span>1d50, idProduct<span style="color:#f92672">=</span>606f, bcdDevice<span style="color:#f92672">=</span> 0.00
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 1108.916318<span style="color:#f92672">]</span> usb 1-1: New USB device strings: Mfr<span style="color:#f92672">=</span>1, Product<span style="color:#f92672">=</span>2, SerialNumber<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 1108.916319<span style="color:#f92672">]</span> usb 1-1: Product: candleLight USB to CAN adapter
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 1108.916320<span style="color:#f92672">]</span> usb 1-1: Manufacturer: bytewerk
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 1108.916321<span style="color:#f92672">]</span> usb 1-1: SerialNumber: 0032002B5546570C20363531
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 1108.933221<span style="color:#f92672">]</span> CAN device driver interface
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 1108.936401<span style="color:#f92672">]</span> gs_usb 1-1:1.0: Configuring <span style="color:#66d9ef">for</span> <span style="color:#ae81ff">1</span> interfaces
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> 1108.937060<span style="color:#f92672">]</span> usbcore: registered new interface driver gs_usb
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ip a
+</span></span><span style="display:flex;"><span>・
+</span></span><span style="display:flex;"><span>・
+</span></span><span style="display:flex;"><span>・
+</span></span><span style="display:flex;"><span>3: can0: &lt;NOARP,ECHO&gt; mtu <span style="color:#ae81ff">16</span> qdisc noop state DOWN group default qlen <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>    link/can
+</span></span></code></pre></div><p>使用するにはカーネルモジュールをロードする必要があります．
+また，デバイスの状態を有効化します．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo modprobe can
+</span></span><span style="display:flex;"><span>$ sudo modprobe can-raw
+</span></span><span style="display:flex;"><span>$ sudo modprobe vcan
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ sudo ip link set can0 type can bitrate &lt;ボーレート&gt;
+</span></span><span style="display:flex;"><span>$ sudo ip link set can0 up
+</span></span></code></pre></div><p>candumpで受信したパケットを確認します．<br>
+何かを繋いで以下のように表示されればOKです．</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ sudo apt install can-utils
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ candump can0 -x
+</span></span><span style="display:flex;"><span>can0  RX - -  <span style="color:#ae81ff">000</span>   <span style="color:#f92672">[</span>8<span style="color:#f92672">]</span>  <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span> <span style="color:#ae81ff">00</span>
+</span></span></code></pre></div><h3 id="dockerコンテナで使用する">dockerコンテナで使用する</h3>
+<ul>
+<li><a href="https://www.systec-electronic.com/en/demo/blog/article/news-socketcan-docker-the-solution">参考ページ</a></li>
+</ul>
+<p>頑張ったけどできませんでした．．．<br>
+<code>--network=host</code>にしたり<code>vcan</code>を使用したりしましたが，認識しませんでした．また挑戦し，出来たら更新したいと思います．</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/" rel="tag">ロボット</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E9%80%9A%E4%BF%A1/" rel="tag">通信</a>
+		</li>
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/linux/" rel="tag">Linux</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="cmos avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">cmosについて</span>
+	</div>
+	<div class="authorbox__description">
+		大学生
+	</div>
+</div>
+
+
+
+			</div>
+			<aside class="sidebar">
+<div class="widget-recent widget">
+	<h4 class="widget__title">最近の投稿</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/can_with_wsl/">WSLでCAN-USBを使う</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/ros2_topic_logger/">ROSトピックロガーを設置する</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/robot_control_with_pi/">ラズパイでロボット制御!</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/impressions_of_irex/">国際ロボット展2023に出展した感想</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/test/">テスト</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">カテゴリー</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%89%80%E6%84%9F/">所感</a></li>
+			<li class="widget__item">
+				<a class="widget__link" href="/categories/%E6%8A%80%E8%A1%93/">技術</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">タグ</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/go/" title="go">go</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/hugo/" title="hugo">hugo</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/linux/" title="Linux">Linux</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/markdown/" title="markdown">markdown</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/ros/" title="ROS">ROS</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E3%83%A9%E3%82%BA%E3%83%91%E3%82%A4/" title="ラズパイ">ラズパイ</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E3%83%AD%E3%83%9C%E3%82%B3%E3%83%B3/" title="ロボコン">ロボコン</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E3%83%AD%E3%83%9C%E3%83%83%E3%83%88/" title="ロボット">ロボット</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%A0%94%E7%A9%B6/" title="研究">研究</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E9%80%9A%E4%BF%A1/" title="通信">通信</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2024 Author.
+			<span class="footer__copyright-credits">このサイトは <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> と <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> テーマで生成されています。</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
