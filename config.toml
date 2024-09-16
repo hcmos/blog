@@ -7,6 +7,8 @@ DefaultContentLanguage = "ja"
 HasCJKLanguage = true
 enableRobotsTXT = true
 
+googleAnalytics = "G-D0L0TNFHKS"
+
 # ブログのタイトル
 title = "cmosのブログ"
 
