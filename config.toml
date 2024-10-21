@@ -23,7 +23,7 @@ paginate = 20
 
 [Params]
     customCSS = ["css/custom.css"]
-    copyright = "Author"
+    copyright = "cmos"
     readmore = true
     authorbox = true
     post_meta = ["date", "categories"]
